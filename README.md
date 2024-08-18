@@ -21,6 +21,83 @@ Developed by:
 RegisterNumber:  
 */
 ```
+~~~
+
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Import libraries to find mae, mse
+
+from sklearn.metrics import mean_absolute_error,mean_squared_error
+
+# Read csv file
+
+df=pd.read_csv("student_scores.csv")
+
+# Displaying the content in datafile
+
+print("HEAD:")
+print(df.head())
+print("TAIL:")
+print(df.tail())
+
+# Segregating data to variables
+
+x=df.iloc[:,:-1].values
+print("x values")
+print(x)
+
+y=df.iloc[:,1].values
+print("y values")
+print(y)
+
+# Splitting train and test data
+
+from sklearn.model_selection import train_test_split
+X_train,X_test,Y_train,Y_test=train_test_split(x,y,test_size=1/3,random_state=0)
+from sklearn.linear_model import LinearRegression
+regressor=LinearRegression()
+regressor.fit(X_train,Y_train)
+Y_pred=regressor.predict(X_test)
+
+# Displaying predicted values
+
+print("Predicted values")
+print(Y_pred)
+
+# Displaying actual values
+
+print("Actual values")
+print(Y_test)
+
+# Graph plot for training data
+
+plt.scatter(X_train,Y_train,color='red')
+plt.plot(X_train,regressor.predict(X_train),color='yellow')
+plt.title("Hours Vs Scores (Training Set)")
+plt.xlabel("Hours")
+plt.ylabel("Scores")
+plt.show()
+
+# Graph plot for test data
+
+plt.scatter(X_test,Y_test,color="green")
+plt.plot(X_test,regressor.predict(X_test),color="blue")
+plt.title("Hours vs Scores (Test Set)")
+plt.xlabel("Hours")
+plt.ylabel("Scores")
+plt.show()
+
+# Find MAE,MSE,RMSE
+
+MSE = mean_squared_error(Y_test,Y_pred)
+print('MSE = ',MSE)
+MAE = mean_absolute_error(Y_test,Y_pred)
+print('MAE = ',MAE)
+RMSE=np.sqrt(MSE)
+print("RMSE = ",RMSE)
+~~~
 
 ## Output:
 ![image](https://github.com/user-attachments/assets/9faadd4d-e3f3-4531-bfa5-b7f6af6b4db7)
